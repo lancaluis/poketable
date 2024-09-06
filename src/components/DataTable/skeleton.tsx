@@ -2,7 +2,7 @@ import { Skeleton } from "#/components/ui/skeleton";
 import { TableCell, TableRow } from "#/components/ui/table";
 
 export function DataTableSkeleton() {
-  return Array.from({ length: 5 }).map((_, idx) => (
+  return Array.from({ length: 20 }).map((_, idx) => (
     <TableRow
       key={idx}
       className="animate-pulse odd:bg-blue-100 even:bg-blue-50 hover:bg-blue-200"
