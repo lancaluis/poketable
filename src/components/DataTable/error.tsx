@@ -8,7 +8,11 @@ import {
   TableRow,
 } from "#/components/ui/table";
 
-export function DataTableError({ error }) {
+interface IDataTableError {
+  message: string;
+}
+
+export function DataTableError({ message }: IDataTableError) {
   return (
     <>
       <Table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
@@ -27,7 +31,7 @@ export function DataTableError({ error }) {
               width={150}
               height={50}
             />
-            <p>{error}</p>
+            <p>{message}</p>
           </div>
         </TableBody>
       </Table>
