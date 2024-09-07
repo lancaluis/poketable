@@ -1,5 +1,3 @@
-const BASE_URL = "https://pokeapi.co/api/v2";
-
 export interface IPokemons {
   count: number;
   next: string | null;
@@ -15,6 +13,7 @@ export interface IPokemon {
   sprites: {
     front_default: string;
   };
+  name: string;
   types: {
     slot: number;
     type: {
@@ -23,31 +22,28 @@ export interface IPokemon {
   }[];
 }
 
-export async function getPokemons() {
-  const response = await fetch(`${BASE_URL}/pokemon?offset=0&limit=20`);
+export async function getPokemons(url: string) {
+  const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("Failed to fetch pokemons");
+    throw new Error(`Failed to fetch pokemons: ${response.statusText}`);
   }
 
-  const pokemonData: IPokemons = await response.json();
+  const pokemonData = (await response.json()) as IPokemons;
 
-  const pokemonDetails = await Promise.all(
-    pokemonData.results.map(async (pokemon) => {
-      const details = await getPokemonByUrl(pokemon.url);
-      return { ...pokemon, details };
-    }),
+  const pokemonDetails: IPokemon[] = await Promise.all(
+    pokemonData.results.map(
+      async (pokemon) => await getPokemonByUrl(pokemon.url),
+    ),
   );
 
-  return pokemonDetails;
+  return { ...pokemonData, details: pokemonDetails };
 }
 
 export async function getPokemonByUrl(url: string) {
   const res = await fetch(url);
-
   if (!res.ok) {
-    throw new Error("Failed to fetch pokemon details");
+    throw new Error(`Failed to fetch pokemon details: ${res.statusText}`);
   }
-
   return res.json() as Promise<IPokemon>;
 }

@@ -14,21 +14,27 @@ import {
   TableRow,
 } from "#/components/ui/table";
 
-import { Button } from "#/components/ui/button";
-
 import { DataTableSkeleton } from "./skeleton";
 import { DataTableError } from "./error";
+import { useState } from "react";
+import { DataTablePagination } from "./pagination";
 
 export default function DataTable() {
+  const [page, setPage] = useState(1);
+
+  const [url, setUrl] = useState(
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20",
+  );
+
   const { data, error, isLoading } = useQuery({
-    queryKey: ["pokemons"],
-    queryFn: getPokemons,
+    queryKey: ["pokemons", url],
+    queryFn: () => getPokemons(url),
   });
 
   if (error)
     return (
       <div className="mx-auto w-full max-w-4xl">
-        <DataTableError error={error.message} />
+        <DataTableError message={error?.message} />
       </div>
     );
 
@@ -52,7 +58,7 @@ export default function DataTable() {
           {isLoading ? (
             <DataTableSkeleton />
           ) : (
-            data?.map(({ details }) => (
+            data?.details?.map((details) => (
               <TableRow
                 key={details.name}
                 className="odd:bg-blue-100 even:bg-blue-50 hover:bg-blue-200"
@@ -83,25 +89,14 @@ export default function DataTable() {
           )}
         </TableBody>
       </Table>
-      <div className="mt-4 flex items-center justify-between">
-        <div className="text-sm text-gray-500">Page</div>
-        <div className="space-x-2">
-          <Button
-          // onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          // disabled={currentPage === 1}
-          >
-            Previous
-          </Button>
-          <Button
-          // onClick={() =>
-          //   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          // }
-          // disabled={currentPage === totalPages}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      {data?.details && (
+        <DataTablePagination
+          data={data}
+          setUrl={setUrl}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </div>
   );
 }
