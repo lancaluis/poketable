@@ -44,3 +44,6 @@ This project includes ReactQuery DevTools to help you simulate different states 
 - **Error State:** You can simulate errors to test how the application responds to failures.
 
 To access these features, use the palm tree icon located at the bottom right of the page.
+
+![Screenshot 1](public/readme/devtools.png)
+
