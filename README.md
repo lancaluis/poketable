@@ -9,6 +9,14 @@
 Welcome to Pokétable! The goal of this project is to explore and enhance skills as a Front-end Engineer.
 It serves as a hands-on example of using these technologies in a practical application.
 
+## 🚀 Technologies Used
+
+- **React**: For building the user interface.
+- **TypeScript**: Ensuring type safety across the application.
+- **Next.js**: For server-side rendering and optimized performance.
+- **Tailwind CSS**: For styling the application with utility-first CSS.
+- **Shadcdn UI**: For creating a modern and intuitive user interface.
+- **React Query**: For data fetching and caching.
 
 ## 🛠️ Installation
 1. **Clone the repository**:
